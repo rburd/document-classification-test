@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
 
 #load mortgage dataset
-data = pd.read_csv("~/Documents/HeavyWater Problem/document_classification_test/dataset/shuffled-full-set-hashed.csv", header = 0)
+data = pd.read_csv("~/Documents/Heavy Water/document_classification_test/dataset/shuffled-full-set-hashed.csv", header = 0)
 
 #extract labels
 labels = data['Label'].values
