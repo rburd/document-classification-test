@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import sklearn
+from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -47,5 +48,8 @@ print(predictions)
 
 # Evaluate accuracy
 print(np.mean(predictions == test_labels))
+
+#Persist model on file
+joblib.dump(nb, "model.p")
 
 
