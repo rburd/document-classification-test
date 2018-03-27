@@ -42,5 +42,4 @@ def classify(request):
     text.replace('%20',' ')
 
     prediction = classifier.predict([text])
-    context = {'here': 'there', }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'classification/index.html', {'prediction': prediction})
