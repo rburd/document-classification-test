@@ -9,6 +9,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from forms import ClassifyForm
 
+from Vectorizer import countVector
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -41,12 +43,10 @@ def classify(request):
     text = pair[1]
     text.replace('%20',' ')
 
-    countVector = CountVectorizer()
-    new_data_counts = countVector.fit_transform([text])
+    new_data_counts = countVector.transform([text])
     tf_transformer = TfidfTransformer(use_idf=False).fit(new_data_counts)
     new_data_tf = tf_transformer.transform(new_data_counts)
 
-    #todo: create same vectorizer instance
     prediction = classifier.predict(new_data_tf)
     context = {'here': 'there', }
     return HttpResponse(template.render(context, request))
