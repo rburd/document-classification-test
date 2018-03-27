@@ -5,6 +5,11 @@
     <title>Welcome to the Classification Page</title>
     <h1>Welcome to Classification!</h1>
 </head>
+    <form action="/index" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+    </form>
 <body>
 
 </body>
