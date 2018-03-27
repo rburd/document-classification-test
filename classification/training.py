@@ -8,8 +8,6 @@ from sklearn.svm import LinearSVC
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.pipeline import Pipeline
 
-from Vectorizer import countVector
-
 #load mortgage dataset
 data = pd.read_csv("~/Documents/Heavy Water/document_classification_test/dataset/shuffled-full-set-hashed.csv", header = 0)
 
@@ -29,22 +27,10 @@ pipeline = Pipeline([
     ('nb', LinearSVC())
 ])
 
-#data_counts = countVector.fit_transform(train.astype('U'))
-
-#tf_transformer = TfidfTransformer(use_idf=False).fit(data_counts)
-#data_tf = tf_transformer.transform(data_counts)
-
-#train Naive Bayes model
-#nb = LinearSVC()
 pipeline.fit(train.astype('U'), train_labels)
-
-#new_data_counts = countVector.transform(test.astype('U'))
-#tf_transformer = TfidfTransformer(use_idf=False).fit(new_data_counts)
-#new_data_tf = tf_transformer.transform(new_data_counts)
 
 #predict
 predictions = pipeline.predict(test.astype('U'))
-#predictions = nb.predict(new_data_tf)
 print(test_labels)
 print(predictions)
 

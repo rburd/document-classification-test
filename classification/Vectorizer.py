@@ -1,3 +1,0 @@
-from sklearn.feature_extraction.text import CountVectorizer
-
-countVector = CountVectorizer();
