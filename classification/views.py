@@ -5,6 +5,8 @@ from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.template import loader
 from sklearn.externals import joblib
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer
 from forms import ClassifyForm
 
 from django.shortcuts import render
@@ -19,9 +21,7 @@ def index(request):
             #process submitted text
             words = form.cleaned_data['words']
             print(words)
-
-            #Todo: encode words into redirected url
-            return HttpResponseRedirect('/classification')
+            return HttpResponseRedirect('/classification' + '?words=' + words)
 
     else:
         form = ClassifyForm()
@@ -29,8 +29,8 @@ def index(request):
 
 def classify(request):
     #load classifier
-    classifier = joblib.load("model.p")
-    template = loader.get_template('classication/classify.html')
+    classifier = joblib.load("classification/model.p")
+    template = loader.get_template('classification/classify.html')
 
     #get words value and predict
     query = request.META['QUERY_STRING']
@@ -39,6 +39,14 @@ def classify(request):
     if ('words' not in pair) :
         return HttpResponseBadRequest("No words parameter found in url")
     text = pair[1]
-    prediction = classifier.predict(text)
+    text.replace('%20',' ')
+
+    countVector = CountVectorizer()
+    new_data_counts = countVector.fit_transform([text])
+    tf_transformer = TfidfTransformer(use_idf=False).fit(new_data_counts)
+    new_data_tf = tf_transformer.transform(new_data_counts)
+
+    #todo: create same vectorizer instance
+    prediction = classifier.predict(new_data_tf)
     context = {'here': 'there', }
     return HttpResponse(template.render(context, request))
